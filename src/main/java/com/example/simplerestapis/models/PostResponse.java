@@ -17,7 +17,7 @@ public class PostResponse {
 		return lastcommitsha;
 	}
 
-	public void setlastcommiitsha(long lastcommitsha) {
+	public void setlastcommiitsha(String lastcommitsha) {
 		this.lastcommitsha = lastcommitsha;
 	}
 	

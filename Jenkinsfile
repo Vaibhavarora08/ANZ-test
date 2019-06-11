@@ -18,29 +18,17 @@ pipeline {
                 git 'https://github.com/Vaibhavarora08/ANZ-test.git'
             }
         }
-        stage ('maven build jar with testing'){
+        stage ('maven build with testing'){
             steps {
                 script {
-                    echo 'Pulling...' + params.BRANCH_NAME
-                    def mvnHome = tool 'Maven 3.5.2'
-                    if (isUnix()) {
-                        def targetVersion = getVersion()
-                        print 'target build version...'
-                        print targetVersion
-                        sh "'${mvnHome}/bin/mvn' -Dintegration-tests.skip=true clean package"
-                        def pom = readMavenPom file: 'pom.xml'
-                        // get the current version
-                        developmentArtifactVersion = "${pom.version}-${targetVersion}"
-                        print pom.version
+                    sh 'mvn clean install'
+                    def pom = readMavenPom file:'pom.xml'
+                    print pom.version
+                    env.version = pom.version
                         // execute the unit testing and collect the reports
                         junit '**//*target/surefire-reports/TEST-*.xml'
                         archive 'target*//*.jar'
-                    } else {
-                        bat(/"${mvnHome}\bin\mvn" -Dintegration-tests.skip=true clean package/)
-                        def pom = readMavenPom file: 'pom.xml'
-                        print pom.version
-                        archive 'target*//*.jar'
-                    }
+                    } 
                 }
             }
         stage('docker build and deploy'){

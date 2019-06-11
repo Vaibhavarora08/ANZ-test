@@ -16,7 +16,7 @@ public class WebController {
 	public SampleResponse Sample(@RequestParam(value = "version",
 	defaultValue = "1.0") long version) {
 		SampleResponse response = new SampleResponse();
-		response.setlastcommitsha("abc57858585");
+		response.setlastcommitsha("abcad");
 		response.setversion("Your version is "+version);
 		return response;
 

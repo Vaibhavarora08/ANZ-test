@@ -31,8 +31,8 @@ pipeline {
                     dir("devops/Docker/${params.profile}"){
                     script{
                     def dockerImageName = "${params.profile}".toLowerCase()
-                    sh "docker login -u admin -p admin123 ${dockerRepoUrl}"
-                    docker.build("${dockerImageName}:v_${BUILD_NUMBER}","-f ${params.profile}-Dockerfile .").push()
+                    sh "docker login -u admin -p admin123 "
+                    docker.build("${dockerImageName}","-f ${params.profile}-Dockerfile .").push()
 		    docker.image(${dockerImageName}).run('-p 8761:8761 --name version')
                 }
             }

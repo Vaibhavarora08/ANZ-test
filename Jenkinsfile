@@ -22,12 +22,7 @@ pipeline {
             steps {
                 script {
                     sh 'mvn clean install'
-                    //def pom = readMavenPom file:'pom.xml'
-                    print pom.version
-                    env.version = pom.version
-                        // execute the unit testing and collect the reports
-                        junit '**//*target/surefire-reports/TEST-*.xml'
-                        archive 'target*//*.jar'
+                    archive 'target*//*.jar'
                     } 
                 }
             }

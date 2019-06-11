@@ -1,0 +1,22 @@
+#Building the base image
+
+FROM golang:alpine AS multistage
+ENV GO111MODULE=on
+WORKDIR /app
+ADD ./ /app
+RUN apk update --no-cache add git
+
+#Building the image using base image 
+
+FROM alpine:latest
+COPY --from= multistage /app /app/golang-test
+RUN go build -o golang-test .
+ENTRYPOINT ["/app/golang-test"]
+EXPOSE 8000
+
+
+
+
+
+
+
